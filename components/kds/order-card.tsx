@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useOrderTimer } from "@/hooks/use-order-timer";
 import type { Order, OrderStatus } from "@/lib/kds-types";
 import { Clock, AlertTriangle, Flame, CheckCircle2, ChefHat, Truck, X } from "lucide-react";
@@ -41,14 +42,21 @@ const STATION_COLORS: Record<string, string> = {
 };
 
 export function OrderCard({ order, onStatusChange, onCancel, isDragging }: OrderCardProps) {
+  const [mounted, setMounted] = useState(false);
   const { display, isWarning, isCritical } = useOrderTimer(order.createdAt);
   const isDelayed = order.status === "delayed" || isCritical;
 
-  const orderTime = order.createdAt.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const orderTime = mounted
+    ? order.createdAt.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })
+    : "--:-- --";
 
   return (
     <div
