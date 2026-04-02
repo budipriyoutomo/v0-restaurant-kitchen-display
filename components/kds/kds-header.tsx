@@ -9,7 +9,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Station, ViewMode } from "@/lib/kds-types";
-import { ChefHat, LayoutGrid, Columns3 } from "lucide-react";
+import { ChefHat, LayoutGrid, Columns3, Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
 
 interface KdsHeaderProps {
   activeOrders: number;
@@ -32,6 +33,7 @@ export function KdsHeader({
 }: KdsHeaderProps) {
   const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState<Date | null>(null);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -114,6 +116,20 @@ export function KdsHeader({
 
       {/* Right: Controls */}
       <div className="flex items-center gap-3">
+        {/* Theme toggle */}
+        {mounted && theme && (
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="flex items-center justify-center w-10 h-10 rounded-lg bg-secondary text-muted-foreground hover:text-foreground hover:bg-kds-surface-raised transition-all"
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {theme === "dark" ? (
+              <Sun className="w-4 h-4" />
+            ) : (
+              <Moon className="w-4 h-4" />
+            )}
+          </button>
+        )}
         {/* View mode toggle */}
         <div className="flex items-center bg-secondary rounded-lg p-1 gap-1">
           <button
