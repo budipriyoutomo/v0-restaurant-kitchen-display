@@ -117,7 +117,7 @@ export function KdsHeader({
       {/* Right: Controls */}
       <div className="flex items-center gap-3">
         {/* Theme toggle */}
-        {mounted && (
+        {mounted && theme && (
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="flex items-center justify-center w-10 h-10 rounded-lg bg-secondary text-muted-foreground hover:text-foreground hover:bg-kds-surface-raised transition-all"
